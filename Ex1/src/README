@@ -1,0 +1,43 @@
+muaz.abdeen
+
+
+
+=============================
+=      File description     =
+=============================
+Book.java - contains the Book class implementation.
+Patron.java - contains the Patron class implementation.
+Library.java - contains the Library class implementation.
+
+
+=============================
+=          Design           =
+=============================
+The book was designed in a way that it is not necessarily connected to a library, it could be registered
+to one library, many libraries, or not registered at all.
+The same thing goes for the patron.
+For the library, every library has its own records of registered books and patrons, and it can manipulate
+just its records, and does not effect other libraries databases.
+In order to manipulate the different instances of books and patrons in a library, I used the composition,
+the Library class has two arrays, one of Book objects, and one for Patron objects.
+This design is consistent with the OOP principles: modularity and readability. Also, it is the same of how
+library systems acts in the real world: not every single book or patron is registered to library, and
+libraries systems are separate, and free to choose which book or patron to register.
+
+
+
+=============================
+=  Implementation details   =
+=============================
+In the Library class, I created for the Book array two parallel arrays that contains in the same index
+information about the book status in that index the Book array, to be specific, I created bookIDs array,
+which contains the book ID in the same index of that book in the registered books array, the second array is
+_availableBooks which contains true in the same index if book is available, otherwise, false.
+also I keep a counter for the added books.
+The same goes for registered patrons array, I created patronIDs array, and _booksPerPatron array which counts
+how many books the patron in that index has borrowed, also I keep a counter for added patrons.
+
+
+=============================
+=    Answers to questions   =
+=============================

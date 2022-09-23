@@ -1,0 +1,44 @@
+These are Evyatar's tests from Google Drive, adapted to be run directly via JUnit (in IntelliJ) rather than Python.
+This will allow you to debug your program more easily, as well as use IntelliJ's built in diffing tool while debugging
+errors.
+
+These should work on both Windows and Linux(haven't tested on Mac, I assume it should work there too).
+Note that 4 tests were disabled for non-Windows OS (they use a windows only hidden attribute) - in that case, you'll get
+a special failing test indicating so. (It doesn't mean an error on your code, it only serves as a remainder to run the
+tests on Windows too)
+
+== Installation ==
+These assume you're using IntelliJ.
+
+Drop the tests folder into your project's root directory(which IntelliJ creates for you, it's where
+ folders such as 'src', 'out', '.idea' usually appear) - so that the folder tree should look like this:
+
+ex5/
+ex5/tests
+ex5/out
+ex5/src
+ex5/src/filesprocessing/DirectoryProcessor.java  - this file must exist, and this class MUST BE PUBLIC, the 'main' method
+                                                    MUST BE PUBLIC as well.
+
+(where 'ex5' is the name of your project's root directory)
+
+Then, you'll need to configure 'tests' as a test directory, do so as follows:
+
+File -> Project Structure -> Modules
+under the 'Sources' tab, you should see your project's file tree. Right click 'tests' and choose 'tests'
+Now, the tests icon should become green.
+
+Then, you'll need to add the junit test library, do the following:
+File -> Project Structure -> Libraries > + > From Maven
+paste the following:
+org.junit.jupiter:junit-jupiter-params:5.4.0
+Ensure that "Transitive Dependencies" is selected as well.
+Press the magnifying glass, it will take some time for results to appear. Then, press the box, select this library,
+and click OK.
+It should then prompt you to add this to the module, press OK and you're done.
+
+
+Now, everything should be ready to work
+
+== Running ==
+Right click 'tests' and click "Run 'all tests'".

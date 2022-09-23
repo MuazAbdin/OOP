@@ -1,0 +1,139 @@
+/** illegal comment */
+// THIS A single > line comm_ent;
+    // illegal comment
+
+// also this
+ // illegal comment
+
+void main() {
+    /* illegal comment */
+    return;
+}
+
+/* illegal comment
+ *
+ */
+/* illegal
+*
+*/
+/* illegal
+what        *
+char */
+
+
+// THe last
+return;// illegal comment
+
+void test1()
+{
+int a = 3 - 5;
+String b = "OO" + "P";
+return;
+;
+return;}
+
+1+2
+1 + 2
+1 - 2
+1-2
+1 * 2
+1*2
+1 / 2
+1/2
+1 % 2
+1%2
+!true
+array[]
+array[5]
+array[value]
+
+_
+2g
+2__
+54_a
+3_3_3_b
+
+g2
+b_3
+__
+_a
+____b
+_0
+a_
+
+
+int number1 = 5;
+int num2 = -3;
+
+
+double b = 5.21;
+double c = 2;
+
+boolean a = true;
+boolean b = false;
+
+char letter = 'a';
+
+String str = "How are you";
+
+int number1 = 5, num2 = -3, num, digit=4, negative;
+
+
+final double b = 5.21;
+double c = 2;
+
+boolean a = true;
+boolean b = false;
+
+char letter = 'a';
+char g = '@';
+
+String str = "How are you?";
+
+
+
+int number1, num2;
+
+final double b,c    ;
+
+boolean a   ,d;
+
+char    letter1, letter2;
+
+final String str;
+
+void add(final int num, String name, boolean married) {
+
+add (   )   ;
+ add(false);
+ add(5);
+ add("john");
+ add(5.21);
+ add('t');
+    allMethod   ( 5, false, "john" , 5.21 ,   't' ) ;
+
+(   )
+(false)
+(5)
+("john")
+(5.21)
+('t')
+
+(5, false, "john" , 5.21 ,   't')
+
+    add(5, 5);
+
+   if (true) {
+        while (name){
+
+        }
+   }
+
+if ( true || false && 5      || -12&&true    ) {
+
+while ( true || false && 5      || -12&&true    ) {
+
+}
+}
+
+}

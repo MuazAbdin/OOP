@@ -1,0 +1,98 @@
+int global1 = 5;
+int global1 = 5
+
+// legal comment
+/**  illegal */
+/*  illegal
+ *
+ */
+
+double global2;
+global2;
+global2
+
+void test(int num, char letter) {
+    int loc1;
+    loc1 = -3;
+    test(3, 'a');
+    test(loc1, letter);
+
+    if (0 || loc1 && true) {
+        loc1 = 0;
+            while (true) {
+                test("HELLO", false, 5.78);
+            }
+    }
+
+    return;
+}
+
+
+boolean global3 = true;
+boolean global4 = false;
+
+char letter = 'a';
+
+String str = "How are you";
+
+test(int num, char letter) {
+void (int num, char letter) {
+void test(int num, char letter)
+void test(int , charletter) {
+void test(int num,letter) {
+    final int loc1;
+    loc1 = -3;
+    test(3, 'a')
+    test(loc1, );
+
+    if ("string") {
+    if (true)
+    if true) {
+    if (true {
+    if true {
+        loc1  0;
+            while true) {
+            while true {
+            while (true {
+            while ('f') {
+
+                test("HELLO", false, 5.78);
+            }
+    char moon = 'for';
+    return;}
+
+    return;
+}
+
+
+int global1 = "three";
+
+// legal comment
+
+final double global2;
+
+void test(int num, char letter) {
+    int loc1;
+    loc1 = -3;
+    test(3, 'a');
+    test(loc1, letter);
+
+    if (0 || loc1 && true) {
+        loc1 = 0;
+            while (true) {
+                test("HELLO", false, 5.78);
+            }
+    }
+
+    return;
+}
+
+
+boolean global3 = true;
+boolean global4 = false;
+
+char letter = 'a';
+
+String str = "How are you";
+
+String str2 = str;

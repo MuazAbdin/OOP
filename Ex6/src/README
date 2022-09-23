@@ -1,0 +1,148 @@
+muaz.abdeen
+mmda1282
+ex6
+=============================
+=      File description     =
+=============================
+## oop.ex6 Package ##
+
+= main subpackage =
+    - Sjavac - Main class: runs the verifier on the source file.
+
+= symbol subpackage =
+    - Variable - A class represents a variable.
+    - Block - A class represents a Block of code (= method or if\while).
+
+= verifier subpackage =
+    - FileVerifier - A class combine all partial verifiers.
+    - SemanticsVerifier -  verifier class for static semantics of the code:
+                           checks valid assignments and referring for variables.
+    - SyntaxVerifier - a class verities syntax correctness.
+    - SymbolTable - Class of symbol tables of the code.
+
+- FileReader - Reads whole file content to an array.
+- Parser - Parses each line into tokens.
+- SJavaRegex - class contains all of regex patterns of the code.
+- VerifierExceptions - Exceptions class for the code verifier.
+
+
+=============================
+=          Design           =
+=============================
+
+(1) Verifier Exceptions
+    We create single class that extends the Exception class, VerifierExceptions.
+    We put then in the source package, i.e. oop.ex6 package, because different
+    classes from different packages in the source package used the exceptions.
+
+(2) Verifier
+    We did not notice an obvious hierarchy between the verifier classes, although
+    they doing a consequent stages of the verifying process, they did not sharing
+    code, so we put them together in the same package but without inheritance.
+
+(3) Symbol
+    We look to the code as if it constructed from elementary components: variables,
+    and complex ones, blocks. Like verifier, we did not notice an obvious hierarchy
+    between them, and no code sharing, so we just put them in the same package.
+
+(4) Regex
+    We put all of regex patterns of the code in this class, trying to make it
+    similar to a factory class.
+
+
+
+=============================
+=  Implementation details   =
+=============================
+
+(1) Handling exceptions:
+    I handled the IO exceptions in the top file verifier class, in which
+    we tried to reach the source file.
+    The Verifying exceptions were thrown in different stages and classes,
+    and delegated (rethrown) to the top verifier class, where were handled.
+
+(2) Regex:
+    We put all of regex patterns of the code in one class, these regex patterns
+    varies: there is a whole line regex, and variable regex, method regex, and
+    if\while regex.
+
+(3) Parser:
+    parses every line to the suitable tokens, and prepares these tokens to be
+    used in other classes, like building symbol tables, and verifying semantics.
+
+(4) Verifying:
+    We decided to loop over the code three times: in the first loop we check syntax legality,
+    using the suitable regex patterns for legal lines:
+    	/* Legal lines are:
+    	   (1) comment: //
+    	   (2) varDec: type keyword or final (many separated by commas)
+    	   (3) varAssign: name (dont allow name to be keyword)
+    	   (4) varRef: varDec or varAssign
+    	   (5) methodDef: void keyword
+    	   (6) methodCall: name()
+    	   (7) returnLine: return
+    	   (8) blocks: if \ while keyword
+    	   (9) closingBracket: }
+    	 */
+    In the second loop we build the global symbol tables: the method table, which contains
+    all method signatures, and the global variable table, which contains all global variables,
+    then we put the global variable table as the root node of a linked list of scope variable
+    tables.
+    In the third loop: we check every method in the methods table, and building a new local
+    symbol table when entering the scope and append it to the linked list of scope variable
+    tables, and delete it when exiting the scope.
+    These symbol tables were used to verify semantics, i.e. type compatibility, and values
+    legality (legal assignments).
+
+
+=============================
+=    Answers to questions   =
+=============================
+Q - How you handles-Java code errors in this exercise, and why you chose to do so?
+A - We handled the IO exceptions in the top file verifier class, in which
+    we tried to reach the source file.
+    The Verifying exceptions were thrown in different stages and classes,
+    and delegated (rethrown) to the top verifier class, where were handled.
+
+Q - How would you modify your code to add new types of variables (e.g.,float)?
+A - define their regex patterns in the Regex class, this will automatically make this
+    type legal, and parser will parses the line contains it, and will be added to
+    symbol tables.
+
+Q - Describe which modifications/extensions you would have to make in your code in
+    order to support: Classes, Different methods' types.
+A - (1) Classes: since classes are kind of block, so we first define the legal regex
+        pattern of class signature, and using the block class to store its details,
+        like (access modifiers, name, etc.), and in the verifier class we will, define
+        a new method to start verifying the class, similar to method verifying, loop over
+        lines and check legality of each line according to sjava class rules.
+        if multiple classes can be define in the same file, we will add classes table to
+        symbol table class.
+
+    (2) Different methods' types: change the regex pattern of method declaration, making
+        types other than void legal, and add new attribute to method block, which is type,
+        and check return value and type compatibility similar to variable assignment.
+
+Q - Describe two of the main regular expressions you used in your code.
+A - (1) VARIABLE_DECLARATION
+        "(" + FINAL + ")(" + TYPE + ")(?:\\s*" + OPTIONAL_ASSIGNMENT + "\\s*,)*\\s*" +
+        OPTIONAL_ASSIGNMENT + "\\s*;\\s*$"
+        a. FINAL = "\\s*(?:final\\s+)?"  =  matches zero or more whitespaces, then the optional group:
+                                            the word final literally and one or more whitespaces.
+        b. TYPE = "(?:int|double|boolean|char|String)\\s+" = exactly one of these words then one or
+                                                             more whitespaces.
+        c. OPTIONAL_ASSIGNMENT = "(?:(" + VARIABLE_NAME + ")(?:" + ASSIGNING_OPERATOR +
+                                 "(" + VARIABLE_VALUE + "))?)"
+                               = matches the variable name, then the assigning operator, then the
+                                 optional group variable name.
+        d. "\\s*;\\s*$" = zero or more whitespaces, then the ; symbol, then zero or more whitespaces,
+                          at end of the line.
+
+    (2) METHOD_DEFINITION
+        "^\\s*void\\s*(?<name>" + METHOD_NAME + ")\\s*" + METHOD_PARAMETER_LIST + "\\s*\\{\\s*$"
+        a. "^\\s*void\\s*" = from the beginning of the line, zero or more whitespaces, then the
+                             word void literally, then zero or more whitespaces.
+        b. "(?<name>" + METHOD_NAME + ")\\s*" = group named: name, matches a predefined regex
+                                                called method name, then zero or more whitespaces.
+        c. "\\s*\\{\\s*$"  = zero or more whitespaces, then the { symbol, then zero or more whitespaces,
+                             at end of the line.

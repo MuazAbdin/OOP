@@ -1,0 +1,123 @@
+muaz.abdeen
+
+
+
+=============================
+=      File description     =
+=============================
+- SimpleHashSet -
+    A superclass for implementations of hash-sets implementing the SimpleSet interface.
+- OpenHashSet -
+    A hash-set based on open hashing (chaining). Extends SimpleHashSet.
+- ClosedHashSet -
+    A hash-set based on closed-hashing with quadratic probing. Extends SimpleHashSet.
+- CollectionFacadeSet -
+    Wraps an underlying Collection and serves to both simplify its API and give it
+    a common type with the implemented SimpleHashSets.
+- FacadeLinkedList -
+    Wraps a java LinkedList to use in OpenHashSet.
+- SimpleSetPerformanceAnalyzer -
+    Simple class analyzes the performance of these five data structures:
+    OpenHashSet, ClosedHashSet, LinkedList, HashSet & TreeSet.
+
+
+
+=============================
+=          Design           =
+=============================
+
+Most of the design is enforced by the given API.
+
+In the abstract super class SimpleHashSet that implements the SimpleSet interface,
+I implemented some methods to avoid code duplication, and made the remaining abstract.
+I tried to keep the API minimal, I added two protected methods in the super class,
+other additional helper methods, in super or sub-classes, are private.
+
+There is two Facade classes, the first is given, which is, CollectionFacadeSet, I wrapped
+the main functionalities of JAVA Collection class, which implements the methods in the
+SimpleSet interface.
+
+The second Facade class, FacadeLinkedList, wraps a java LinkedList to use in making the
+array of linked lists in OpenHashSet class.
+
+Finally, in the SimpleSetPerformanceAnalyzer class, I designed it in such a way, one could
+enable and disable any test easily.
+
+
+=============================
+=  Implementation details   =
+=============================
+
+- OpenHashSet -
+    I implemented a Facade class that wraps a LinkedList, called FacadeLinkedList.
+    I declared an array of this FacadeLinkedList to be the hashtable, then initialized
+    it with INITIAL_CAPACITY empty (null) cells.
+    When adding an item, if it is mapped to empty cell, a new FacadeLinkedList is initialized
+    with this item as its head node, else it is added at the first of the existing FacadeLinkedList.
+    The size attribute is updated after each deletion or addition.
+    I used the methods of the LinkedList to find, delete, and add to the linked lists in the array.
+
+- ClosedHashSet -
+    The most important issue here was: how to mange the deletion operation in such a way that
+    puts no constraints on string values, and takes a constant time and space?
+    I created a unique string called DUMMY by invoking the String constructor directly, and
+    when deleting a value I put in its place a pointer to this DUMMY, and when searching for a
+    value I compared between the addresses of the strings, not the contents of them, that is to
+    say, I used the '=' operator, not equals() method. In this way I can add a string equals to
+    'DUMMY' to the table, without causing any problem, because it will pointed to another
+    memory address different from our unique DUMMY value.
+
+- SimpleSetPerformanceAnalyzer -
+    I defined two factory functions, one that creates a SimpleSet array with OpenHashSet
+    and ClosedHashSet initialized with default constructor, and other data structures which
+    wrapped in CollectionFacadeSet with there default constructor, too. In other words, each
+    data structure here is empty. The second factory function initialize each data structure
+    with a given array of strings.
+    I created a separate test function for every functionality to test as stated in the exercise
+    file, so that one could enable and disable any test easily, by comment or uncomment the
+    function call in the main function.
+
+
+=============================
+=    Answers to questions   =
+=============================
+Q - Account, in separate, for OpenHashSet’s and ClosedHashSet’s bad results for data1.txt -
+A - In data1.txt all the Strings have the same hashCode.
+    in OpenHashSet (chaining), all of the strings will end in the same bucket, so every time we
+    add an item, we first check if this list contains it, which means iterating over it, this
+    takes a linear time, i.e O(n) for n = number of strings in data.txt.
+    in ClosedHashSet, all of the string are mapped initially to the same bucket, which increases
+    the secondary clustering, and creates a long run of filled slots away from the initial
+    position, in other words, we must iterate along the probe sequence every time, this takes
+    also linear time.
+
+Q - Summarize the strengths and weaknesses of each of the data structures as reflected by the
+    results. Which would you use for which purposes? -
+A - (1) OpenHashSet and ClosedHashSet: behaves almost the same, one can notice that OpenHashSet
+        behaves better than ClosedHashSet in the worst case, both takes linear time, but it
+        seems that the coefficient of n is less in OpenHashSet.
+        In the average and best case they behaves almost like the Java HashSet & TreeSet, there
+        is difference of course, but not huge.
+    (2) Java HashSet: achieves the best results in all cases, constant time.
+    (3) Java TreeSet: almost the same as HashSet, but takes a bit longer, because it orders
+        the elements in every bucket, this takes more time.
+    (4) Java LinkedList: takes the longest time among all other data structures, because in every
+        addition addition ot deletion we check the existence of the element, which needs to
+        iterate over the list.
+    In general, Java HashSet behaves the best, and I would use it in the cases I wanted an
+    unordered set, otherwise, TreeSet would be my choice.
+
+Q - How did your two implementations compare between themselves? -
+A - behaves almost the same, one can notice that OpenHashSet behaves better than
+    ClosedHashSet in the worst case, both takes linear time, but it seems that
+    the coefficient of n is less in OpenHashSet.
+    In the average and best case they behaves almost the same.
+
+Q - How did your implementations compare to Java’s built in HashSet? -
+A - In the worst case, there is a huge difference, mine took linear time, while Java's
+    took constant time.
+    In the average and best case they behaved almost like the Java HashSet, there
+    is difference of course, but not huge.
+
+Q - Did you find java’s HashSet performance on data1.txt surprising? Can you explain it?
+A - Yes, I did. I think they used perfect hashing, or a long hash table !!

@@ -1,0 +1,114 @@
+muaz.abdeen
+
+
+
+=============================
+=      File description     =
+=============================
+Spaceship.java - contains the Spaceship class implementation.
+SpaceshipTest.java - contains the test class of Spaceship.
+Storage.java - contains the Storage interface which defines the general
+API a storage unit must have.
+StorageUnit.java - contains the StorageUnit class implementation, which
+extends the Storage interface
+and contained in physical storages of the spaceship.
+Locker.java - contains the Locker implementation.
+LockerTest.java - contains the test class of the Locker.
+LongTermStorage.java - contains the LongTermStorage implementation.
+LongTermTest.java - contains the test class of LongTermStorage.
+SpaceshipDepositoryTest.java - contains the test suit of the previous classes.
+
+BoopingSite.java - contains the BoopingSite class implementation.
+fullDatasetTest.java - contains the test class of BoopingSite, using the
+full database.
+partialDatasetTest.java - contains the test class of BoopingSite, using the
+partial database..
+emptyDatasetTest.java - contains the test class of BoopingSite, using the
+empty database..
+BoopingSiteTest.java - contains the test class of the BoopingSite.
+
+
+
+=============================
+=          Design           =
+=============================
+
+I chose to create a Storage interface which defines the general API a storage
+unit must have.
+Then I created a StorageUnit class that implements this interface, and composed
+it in the Locker and the
+LongTermStorage of the spaceship.
+
+This is because:
+(1) there is so much implementation in common, and I wand a reusable design.
+(2) to preserve the encapsulation of each class.
+(3) to make the code extensible, we can add functionalities to Storage interface and
+StorageUnit without modifying any class that composed a StorageUnit in it.
+
+I preferred this design over the inheritance (making Storage an abstract class and Locker
+and LTS sub-classes) because in inheritance any change in the parent forces the subclass to
+change, this leads to rigid code.
+
+
+=============================
+=  Implementation details   =
+=============================
+
+I created a Storage interface which defines the general API a storage unit must have.
+Then I created a StorageUnit class that implements this interface, and composed it in
+the Locker and the LongTermStorage of the spaceship.
+
+* Storage *
+defines the API:
+addItem, getItemCount, getInventory, getCapacity, getAvailableCapacity.
+
+* StorageUnit *
+implements the Storage API.
+to store the information I create an attribute named _inventory, I used the built-in
+data structure Map<K,V> with String keys (item types), and Integer values (item volume).
+the addItem method not checking constraints or if items of one type occupies more than
+50%, because its general adding method for every physical storage.
+
+* Locker *
+I composed a StorageUnit in it, and created a map that maps between every item an its
+contradicting items, so that I can check if item violates the constraints before adding it.
+I did not reuse the addItem method of the storageUnit because there is additional instructions
+in the add method of the Locker.
+
+* LongTermStorage *
+I composed a StorageUnit in it, and reused the code of all StorageUnit methods.
+
+* BoopingSite *
+= getHotelsInCityByRating =
+First I filtered the hotels to get those who exists in the given city, via a private
+helper function.
+then, I created a RatingNamesCompare class that implementing comparator interface to
+creates a compare method that compares between two hotels according to their ratings and
+names, then used it to sort the hotels.
+
+= getHotelsByProximity =
+I created a proximityPOICompare class that implementing comparator interface to creates
+a compare method that compares between two hotels according to their proximity to a given
+location and according to their number of points of interests, then used it to sort the hotels.
+
+= getHotelsInCityByProximity =
+I used the filter function to get the hotels who exists in the given city,
+then, I use the proximityPOICompare class to sort the hotels.
+
+* BoopingSiteTest *
+I created three separate testing classes, one used the full dataset, the second used the
+partial dataset, and the last used the empty one, the I combine them in a test suit
+named BoopingSiteTest
+
+=============================
+=    Answers to questions   =
+=============================
+
+
+
+
+
+
+
+
+

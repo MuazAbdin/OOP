@@ -1,0 +1,87 @@
+muaz.abdeen
+
+
+
+=============================
+=      File description     =
+=============================
+## filesprocessing Package ##
+
+= Filter subpackage =
+    - FilterFactory - A factory class for filters used in Directory Processor.
+    - NegatedFilter - A decorator class for FileFilter.
+
+= Order subpackage =
+    - OrderFactory - A factory class for orders used in Directory Processor.
+    - FileSort - User-defined sorting class that uses QuickSort algorithm.
+
+- DirectoryProcessor - A program thar filters the files in a given directory
+                       according to various conditions, and orders the filenames
+                       that passed the filtering according to various properties.
+- Section - Represents a single section of command file.
+- TypeIError - Type I errors (Warnings) class.
+- TypeIIError - Type II errors class.
+
+
+
+=============================
+=          Design           =
+=============================
+
+(1) Processing Exceptions
+    I create two classes that extends the Exception class, TypeIError and TypeIIError.
+    I put then in the main package, i.e. filesprocessing package.
+
+(2) Filter
+    I designed a factory class that produces all of the filters, following the Single
+    Choice Principle. also I made a decorator class that negates any filter passed to it.
+    This design gives my code the extendability and continuity, because if in future I
+    need to add more filters I can easily add them to the factory class.
+
+(3) Order
+    Here too, I followed the Single Choice Principle, I created a factory class for orders.
+    Similar to Filter design this gives my code the extendability and continuity.
+
+
+
+=============================
+=  Implementation details   =
+=============================
+
+(1) Handling exceptions:
+    I handled TypeIError while executing each section in the instance method
+    executeCommands(args) of the Section class.
+    I handled TypeIIError in the main method of DirectoryProcessor.
+    In any other place I just throw, or rethrow the exception.
+
+(2) Filter:
+    I took advantage of the Java's Functional Interface FileFilter.
+    In the FilterFactory I used the lambda expression to implement the FileFilter
+    for all of the filers given in the exercise description.
+
+(3) Order:
+    Like Filter, I took advantage of the Java's Comparator interface, which is also
+    a Functional Interface, and in the OrderFactory I used the lambda expression to
+    implement the Comparator for each order given in the exercise description.
+
+(4) Sorting:
+    I implemented I special version of quick sort to sort lists of File objects.
+    The constructor of the FileSort class takes a comparator, which will be used
+    to compare File objects in the sorting algorithm.
+
+(5) Printing the results:
+    For every section in the command file, I instantiated the Section class, this
+    instance contains the section details, according to this details every section
+    instance creates a list of filtered and order files in the directory, then after
+    printing Type I Errors, the files of this list are printed.
+    If while building any section, an exception of Type II was thrown, the process
+    stops, and the main method prints the error message.
+
+=============================
+=    Answers to questions   =
+=============================
+Q - How did you sort your matched files? Did you use a data structure for this purpose?
+    If so, what data structure and why?
+A - I implemented a special instance of quick sort, that sorted a list of File objects.
+    I used the java's ArrayList, because this is list my program made after filtering
+    the files in the directory, and passed it the sorter.
